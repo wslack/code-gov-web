@@ -1,11 +1,11 @@
 {
   "vendor": {
-    "js": "/code-gov-web/vendor.4bb4a1f5f4d4391a6c10.bundle.js"
+    "js": "/code-gov-web/code-gov-web/vendor.4bb4a1f5f4d4391a6c10.bundle.js"
   },
   "main": {
-    "js": "/code-gov-web/main.419b5a3e354591aacda0.bundle.js"
+    "js": "/code-gov-web/code-gov-web/main.b9d4b6c6a95ce68af3ff.bundle.js"
   },
   "polyfills": {
-    "js": "/code-gov-web/polyfills.e6be7a6304564af2ebba.bundle.js"
+    "js": "/code-gov-web/code-gov-web/polyfills.3126f39e8f0a5457a3c6.bundle.js"
   }
 }
