@@ -4,7 +4,8 @@ import {
   AgencyComponent,
   ExploreCodeComponent,
   RepoComponent,
-  ReposComponent
+  ReposComponent,
+  SearchResultsComponent
 } from '../../utils/app-components';
 import { AGENCIES } from '../../services/agency';
 import { DataResolver } from '../../app.resolver';
@@ -29,7 +30,8 @@ export const EXPLORE_CODE_ROUTES: Routes = [
         children: [
           { path: ':id', component: RepoComponent }
         ]
-      }
+      },
+      { path: 'results', component: SearchResultsComponent }
     ]
   }
 ];
