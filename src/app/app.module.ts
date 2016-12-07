@@ -29,6 +29,7 @@ import { AgencyService, AGENCIES } from './services/agency';
 import { MobileService } from './services/mobile';
 import { ModalService } from './services/modal';
 import { ReposService } from './services/repos';
+import { SearchService } from './services/search';
 import { SeoService } from './services/seo';
 import { StateService } from './services/state';
 
@@ -39,6 +40,7 @@ const APP_PROVIDERS = [
   MobileService,
   ModalService,
   ReposService,
+  SearchService,
   SeoService,
   StateService
 ];

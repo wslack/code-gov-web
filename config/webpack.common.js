@@ -29,6 +29,7 @@ module.exports = function (options) {
   isProd = ['production', 'staging'].includes(options.env);
 
   const METADATA = {
+    API_URL: 'http://localhost:3001/api/0.1/',
     title: 'Code.gov',
     baseUrl: '/',
     isDevServer: helpers.isWebpackDevServer(),
@@ -98,6 +99,7 @@ module.exports = function (options) {
       }
     }),
     new DefinePlugin({
+      'API_URL': JSON.stringify(METADATA.API_URL),
       'ENV': JSON.stringify(METADATA.ENV),
       'HMR': METADATA.HMR,
       'process.env': {
