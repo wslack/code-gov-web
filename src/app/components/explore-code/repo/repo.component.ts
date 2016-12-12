@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { AgencyService, Agency } from '../../../services/agency';
 import { ExternalLinkDirective } from '../../../directives/external-link';
-import { ReposService } from '../../../services/repos';
+import { RepoService } from '../../../services/repo';
 import { SeoService } from '../../../services/seo';
 
 @Component({
@@ -13,17 +13,21 @@ import { SeoService } from '../../../services/seo';
 })
 
 export class RepoComponent implements OnInit, OnDestroy {
-  agency: Agency;
   repo: any;
   eventSub: Subscription;
   repoSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private agencyService: AgencyService,
-    private reposService: ReposService,
+    private repoService: RepoService,
     private seoService: SeoService
   ) {}
+
+  navigateTo404() {
+    this.router.navigateByUrl('404');
+  }
 
   ngOnInit() {
     this.eventSub = this.route.params.subscribe(params => {
@@ -40,17 +44,20 @@ export class RepoComponent implements OnInit, OnDestroy {
   }
 
   getRepo(id) {
-    this.repoSub = this.reposService.getJsonFile().
-      subscribe((result) => {
+    this.repoSub = this.repoService.getRepo(id).subscribe(
+      result => {
         if (result) {
-          this.repo = result['repos'].filter(repo => repo.repoID === id)[0];
-          this.repo.agency = this.agencyService.getAgency(this.repo.agency);
+          this.repo = result;
           this.seoService.setTitle(this.repo.name, true);
           this.seoService.setMetaDescription(this.repo.description);
           this.seoService.setMetaRobots('Index, Follow');
         } else {
-          console.log('Error. Source code repositories not found');
+          this.navigateTo404();
         }
-    });
+      },
+      error => {
+        this.navigateTo404();
+      }
+    );
   }
 }

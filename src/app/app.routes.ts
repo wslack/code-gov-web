@@ -13,5 +13,6 @@ export const ROUTES: Routes = [
   ...EXPLORE_CODE_ROUTES,
   ...POLICY_GUIDE_ROUTES,
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: '404', component: FourOhFourComponent },
   { path: '**', component: FourOhFourComponent }
 ];

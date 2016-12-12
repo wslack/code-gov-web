@@ -2,8 +2,8 @@
   <header>
     <div class="repo-header-container">
       <h3>
-        <a routerLink="/explore-code/agencies/{{repo.agency.id}}">
-          {{ repo.agency.name }}
+        <a routerLink="/explore-code/agencies/{{repo.agency}}">
+          {{ repo.agency }}
         </a>
       </h3>
       <h1>{{ repo.name }}</h1>
@@ -17,8 +17,8 @@
           </a>
         </li>
 
-        <li *ngIf="repo.repoURL | isdefined">
-          <a external-link class="usa-button" href="{{ repo.repoURL }}">
+        <li *ngIf="repo.repository | isdefined">
+          <a external-link class="usa-button" href="{{ repo.repository }}">
             Visit Repo
           </a>
         </li>
