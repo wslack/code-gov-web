@@ -5,7 +5,7 @@
   </p>
   <ul class="repos-list usa-unstyled-list">
     <li *ngFor="let repo of repos" class="repo">
-      <a>
+      <a routerLink="/explore-code/repos/{{repo.repoID}}">
         <h3 class="repo-name">{{ repo.name }}</h3>
         <p class="repo-description">
           {{ repo.description | truncate : 200 }}

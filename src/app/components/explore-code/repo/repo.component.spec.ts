@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TestBed, inject, ComponentFixture } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location, CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Rx';
 import { AgencyService } from '../../../services/agency';
 import { ExternalLinkDirective } from '../../../directives/external-link';
 import { RepoComponent } from './index';
-import { ReposService } from '../../../services/repos';
+import { RepoService } from '../../../services/repo';
 import { SeoService } from '../../../services/seo';
 import { LanguageIconPipe } from './../../../pipes/language-icon/language-icon.pipe';
 import { TruncatePipe } from './../../../pipes/truncate/truncate.pipe';
@@ -31,8 +31,10 @@ let id = '33202667';
 describe('RepoComponent', () => {
   let fixture: ComponentFixture<RepoComponent>;
   let repoComponent: RepoComponent;
+  let mockRouter: any;
 
   beforeEach(() => {
+
     TestBed.configureTestingModule({
       imports: [
         Angulartics2Module.forRoot(),
@@ -56,7 +58,7 @@ describe('RepoComponent', () => {
       providers: [
         AgencyService,
         Angulartics2,
-        ReposService,
+        RepoService,
         ModalService,
         SeoService,
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
@@ -65,50 +67,48 @@ describe('RepoComponent', () => {
 
     fixture = TestBed.createComponent(RepoComponent);
     repoComponent = fixture.componentInstance;
-
   });
 
-  it('should initialize repo property when getJsonagency.id property is set',
-    inject([AgencyService, ReposService],
-      (agencyService, reposService)  => {
+  it('should initialize repo property when repo is set',
+    inject([AgencyService, RepoService],
+      (agencyService, repoService)  => {
     // setup dependencies
     let agency = {id: 'VA', name: 'Department of Veterans Affairs'};
     spyOn(agencyService, 'getAgency').and.returnValue(agency);
     let repo = createRepository({name: 'Fake repo name'});
-    spyOn(reposService, 'getJsonFile').and.returnValue(Observable.of(repo));
+    spyOn(repoService, 'getRepo').and.returnValue(Observable.of(repo));
 
     fixture.detectChanges();
 
     expect(repoComponent.repo).toBeDefined();
-    // also checking on agency object after call to AgencyService.getAgancy()
-    expect(repoComponent.repo.agency.id).toEqual(agency.id);
-    // console.log("Agency: ", repoComponent.repo.agency);
   }));
 
   it('should NOT initialize repo property if id property is bogus',
-    inject([AgencyService, ReposService],
-      (agencyService, reposService)  => {
+    inject([AgencyService, RepoService, Router],
+      (agencyService, repoService, router)  => {
     let agency = {id: 'VA', name: 'Department of Veterans Affairs'};
     spyOn(agencyService, 'getAgency').and.returnValue(agency);
-    let repos = undefined;
-    spyOn(reposService, 'getJsonFile').and.returnValue(Observable.of(repos));
-    // instantiate a new RepoComponent so that ngOnInit() doesn't get called
-    let newRepoComponent = new RepoComponent(null, agencyService, reposService, null);
+    let repo = undefined;
+    spyOn(repoService, 'getRepo').and.returnValue(Observable.of(repo));
 
-    // call getRepo() that invokes reposService.getJsonFile()
+    // instantiate a new RepoComponent so that ngOnInit() doesn't get called
+    let newRepoComponent = new RepoComponent(null, router, agencyService, repoService, null);
+    spyOn(newRepoComponent, 'navigateTo404');
+
+    // call getRepo() that invokes repoService.getRepo()
     newRepoComponent.getRepo('');
 
     expect(newRepoComponent.repo).toBeUndefined();
   }));
 
   it('should call seoService.setMetaDescription() when repository is returned ' +
-    ' when reposService.getJsonFile() returns a repository' ,
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
+    ' when repoService.getRepo() returns a repository' ,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
     let agency = {id: 'VA', name: 'Department of Veterans Affairs'};
     spyOn(agencyService, 'getAgency').and.returnValue(agency);
     let repo = createRepository({name: 'Another Fake repo name'});
-    spyOn(reposService, 'getJsonFile').and.returnValue(Observable.of(repo));
+    spyOn(repoService, 'getRepo').and.returnValue(Observable.of(repo));
     spyOn(seoService, 'setMetaDescription');
 
     fixture.detectChanges();
@@ -119,29 +119,28 @@ describe('RepoComponent', () => {
 
 
   it('should display repoUrl in template if repo.repoUrl property is set',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
     let agency = {id: 'VA', name: 'Department of Veterans Affairs'};
     spyOn(agencyService, 'getAgency').and.returnValue(agency);
     const repoURL = 'http://www.github.com/foobar/';
     let repo = createRepository(
       {name: 'A Fake repo name to show repo',
-      repoURL: repoURL, homepage: 'http://code.gov/foobar/' });
-    spyOn(reposService, 'getJsonFile').and.returnValue(Observable.of(repo));
+      repository: repoURL, homepage: 'http://code.gov/foobar/' });
+    spyOn(repoService, 'getRepo').and.returnValue(Observable.of(repo));
 
     fixture.detectChanges();
 
     let anchors = fixture.nativeElement.querySelectorAll('.usa-button');
-    // console.log('Anchors: ', anchors);
 
     // 2nd child anchor is the repoURL (first one is homepage)
     expect(anchors[1].href).toBe(repoURL);
   }));
 
   it('should display repository name in template if repo.name property is defined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {name: 'VA REPO'});
 
         fixture.detectChanges();
@@ -156,9 +155,9 @@ describe('RepoComponent', () => {
 
   it('should NOT display repository description in template if repo.description '
     + 'property is undefined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {description: undefined});
 
         fixture.detectChanges();
@@ -170,9 +169,9 @@ describe('RepoComponent', () => {
 
 
   it('should NOT display repository description in template if repo.description property is null',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {description: null});
 
         fixture.detectChanges();
@@ -183,9 +182,9 @@ describe('RepoComponent', () => {
   ));
 
   it('should display repository description in template if repo.description property is defined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {description: 'REPO DESC'});
 
         fixture.detectChanges();
@@ -199,9 +198,9 @@ describe('RepoComponent', () => {
 /******* Test repo.homepage  ****/
 
   it('should NOT display repository homepage in template if repo.homepage property is undefined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {homepage: undefined});
 
         fixture.detectChanges();
@@ -213,9 +212,9 @@ describe('RepoComponent', () => {
 
 
   it('should NOT display repository homepage in template if repo.homepage property is null',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {homepage: null});
 
         fixture.detectChanges();
@@ -226,9 +225,9 @@ describe('RepoComponent', () => {
   ));
 
   it('should display repository homepage in template if repo.homepage property is defined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
           {homepage: 'http://code.gov/'});
 
         fixture.detectChanges();
@@ -242,10 +241,10 @@ describe('RepoComponent', () => {
 /******* Test repo.repoUrl  ****/
 
   it('should NOT display repository url in template if repo.repoURL property is undefined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
-          {repoURL: undefined, homepage: 'http://foo.bar'});
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
+          {repository: undefined, homepage: 'http://foo.bar'});
 
         fixture.detectChanges();
 
@@ -256,30 +255,28 @@ describe('RepoComponent', () => {
   ));
 
 
-  it('should NOT display repository Url in template if repo.repoURL property is null',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
-          {repoURL: null, homepage: 'http://foo.bar'});
+  it('should NOT display repository Url in template if repo.repository property is null',
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
+          {repository: null, homepage: 'http://foo.bar'});
 
         fixture.detectChanges();
 
         let parent = fixture.nativeElement.querySelector('.usa-unstyled-list');
-        // console.log('PARENT: ', parent);
         expect(parent.children[1]).toBeUndefined();
       }
   ));
 
-  it('should display repository repoUrl in template if repo.repoURL property is defined',
-    inject([AgencyService, ReposService, SeoService],
-      (agencyService, reposService, seoService)  => {
-        setupRepoPropertyTest(agencyService, reposService, seoService,
-          {repoURL: 'http://code.gov/repo', homepage: undefined});
+  it('should display repository repoUrl in template if repo.repository property is defined',
+    inject([AgencyService, RepoService, SeoService],
+      (agencyService, repoService, seoService)  => {
+        setupRepoPropertyTest(agencyService, repoService, seoService,
+          {repository: 'http://code.gov/repo', homepage: undefined});
 
         fixture.detectChanges();
 
         let parent = fixture.nativeElement.querySelector('.usa-unstyled-list');
-        // console.log('PARENT: ', parent);
 
         expect(parent.children[0]).toBeDefined();
       }
@@ -304,7 +301,7 @@ interface RepoProps {
   name?: string;
   description?: string;
   homepage?: string;
-  repoURL?: string;
+  repository?: string;
 }
 
 /**
@@ -313,12 +310,10 @@ interface RepoProps {
  */
 export function createRepository(repoProps: RepoProps) {
   return {
-      repos: [
-        { repoID : id, name: repoProps.name, description: repoProps.description,
-          codeLanguage: [{language: 'JavaScript'}], agency: 'VA',
-          homepage: repoProps.homepage, repoURL: repoProps.repoURL }
-        ]
-    };
+    repoID : id, name: repoProps.name, description: repoProps.description,
+    codeLanguage: [{language: 'JavaScript'}], agency: 'VA',
+    homepage: repoProps.homepage, repository: repoProps.repository
+  };
 }
 
 /**
@@ -327,13 +322,13 @@ export function createRepository(repoProps: RepoProps) {
  * RepoComponent dependencies.
  */
 export function setupRepoPropertyTest(
-  agencyService: AgencyService, reposService: ReposService,
+  agencyService: AgencyService, repoService: RepoService,
   seoService: SeoService, repoProps: RepoProps) {
     let agency = {id: 'VA', name: 'Department of Veterans Affairs'};
     spyOn(agencyService, 'getAgency').and.returnValue(agency);
     // set up repository
     const FAKE_REPO = createRepository(repoProps);
-    spyOn(reposService, 'getJsonFile').and.returnValue(Observable.of(FAKE_REPO));
+    spyOn(repoService, 'getRepo').and.returnValue(Observable.of(FAKE_REPO));
 
 }
 

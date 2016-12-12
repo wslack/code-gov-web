@@ -37,16 +37,22 @@ export class ReposSearchComponent {
   }
 
   onSubmit(form: any): void {
-    console.log(form);
     this.search(form.query);
   }
 
   search(query: string) {
-    this.searchService.search(0, 10, query).subscribe((result) => {
-      if (result) {
-        this.searchService.setSearchResults(result['repos']);
-        this.navigateToResults();
+    this.searchService.search(0, 10, query).subscribe(
+      result => {
+        if (result) {
+           this.searchService.setSearchResults(result['repos']);
+           this.navigateToResults();
+        } else {
+          console.log("No Repos Found");
+        }
+      },
+      error => {
+        console.log(error)
       }
-    });
+    );
   }
 }
