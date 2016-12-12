@@ -44,8 +44,8 @@ export class ReposSearchComponent {
     this.searchService.search(0, 10, query).subscribe(
       result => {
         if (result) {
-           this.searchService.setSearchResults(result['repos']);
-           this.navigateToResults();
+          this.searchService.setSearchResults(result['repos'], result['total']);
+          this.navigateToResults();
         } else {
           console.log("No Repos Found");
         }

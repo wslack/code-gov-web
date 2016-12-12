@@ -4,11 +4,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import { AuthHttp, AuthConfig, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { Angulartics2On } from 'angulartics2';
 import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -55,8 +55,9 @@ const APP_PROVIDERS = [
     Angulartics2Module.forRoot(),
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpModule,
+    InfiniteScrollModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   declarations: [

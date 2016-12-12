@@ -21,7 +21,6 @@ describe('ReposSearchComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        FakeComponent,
         ReposSearchComponent
       ],
       imports: [
@@ -79,20 +78,24 @@ describe('ReposSearchComponent', () => {
       spyOn(searchService, 'setSearchResults');
       spyOn(this.reposSearchComponent, 'navigateToResults');
 
-      spyOn(searchService, 'search').and.callFake(function(start, size, query) {
-        return Observable.of({ response: 'success'});
-      });
+      spyOn(searchService, 'search').and.callThrough();
 
       this.reposSearchComponent.search('GSA');
-      expect(this.reposSearchComponent.navigateToResults).toHaveBeenCalledWith();
+      expect(this.reposSearchComponent.navigateToResults).toHaveBeenCalled();
+    }));
+
+    it('should call the setSearchResults function in the SearchService',
+      inject([SearchService], searchService => {
+      spyOn(searchService, 'setSearchResults');
+      spyOn(this.reposSearchComponent, 'navigateToResults');
+
+      spyOn(searchService, 'search').and.callThrough();
+
+      this.reposSearchComponent.search('GSA');
+      expect(searchService.setSearchResults).toHaveBeenCalledWith(searchService.getResult(), 3);
     }));
   });
 });
-
-@Component({
-  template: ''
-})
-class FakeComponent {}
 
 class MockRouter {
   url: string;
@@ -106,7 +109,12 @@ class MockRouter {
 }
 
 class MockSearchService {
-  result = [{repos: [{name: 'GSA'}, {name: 'GSA 2'}, {name: 'GSA 3'}]}];
+  result = {total: 3, repos: [{name: 'GSA'}, {name: 'GSA 2'}, {name: 'GSA 3'}]};
+
+  getResult() {
+    return this.result['repos'];
+  }
+
   search(arg, arg2, arg3) {
     return Observable.of(this.result);
   }

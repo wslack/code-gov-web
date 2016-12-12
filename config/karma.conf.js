@@ -24,8 +24,7 @@ module.exports = function(config) {
     files: [ { pattern: './config/spec-bundle.js', watched: false } ],
 
     proxies: {
-        '/assets/fonts/': '/base/assets/fonts/',
-        "/app/": '/base/build/app/'
+        '/assets/fonts/': '/base/assets/fonts/'
     },
 
     /*
