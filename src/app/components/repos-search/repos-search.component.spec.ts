@@ -38,17 +38,6 @@ describe('ReposSearchComponent', () => {
     this.reposSearchComponent = this.fixture.componentInstance;
   });
 
-  describe('navigateToResults', () => {
-    it('should navigate to results page if not there already',
-      inject([Router], router => {
-      spyOn(router, 'navigateByUrl');
-
-      this.reposSearchComponent.navigateToResults();
-
-      expect(router.navigateByUrl).toHaveBeenCalled();
-    }));
-  });
-
   describe('onSubmit', () => {
     it('should call the search function', () => {
       spyOn(this.reposSearchComponent, 'search');
@@ -60,39 +49,13 @@ describe('ReposSearchComponent', () => {
   });
 
   describe('search', () => {
-    it('should call the search service',
-      inject([SearchService], searchService => {
-      spyOn(searchService, 'setSearchResults');
-      spyOn(this.reposSearchComponent, 'navigateToResults');
+    it('should navigate to results page',
+      inject([Router], router => {
+        let query = 'GSA';
+        spyOn(router, 'navigateByUrl');
+        this.reposSearchComponent.search('GSA');
 
-      spyOn(searchService, 'search').and.callFake(function(start, size, query) {
-        return Observable.of({ response: 'success'});
-      });
-
-      this.reposSearchComponent.search('GSA');
-      expect(searchService.search).toHaveBeenCalledWith(0, 10, 'GSA');
-    }));
-
-    it('should call the navigateToResults function',
-      inject([SearchService], searchService => {
-      spyOn(searchService, 'setSearchResults');
-      spyOn(this.reposSearchComponent, 'navigateToResults');
-
-      spyOn(searchService, 'search').and.callThrough();
-
-      this.reposSearchComponent.search('GSA');
-      expect(this.reposSearchComponent.navigateToResults).toHaveBeenCalled();
-    }));
-
-    it('should call the setSearchResults function in the SearchService',
-      inject([SearchService], searchService => {
-      spyOn(searchService, 'setSearchResults');
-      spyOn(this.reposSearchComponent, 'navigateToResults');
-
-      spyOn(searchService, 'search').and.callThrough();
-
-      this.reposSearchComponent.search('GSA');
-      expect(searchService.setSearchResults).toHaveBeenCalledWith(searchService.getResult(), 3);
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/search?q=' + query);
     }));
   });
 });

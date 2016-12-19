@@ -7,6 +7,7 @@ import {
   Response,
   XHRBackend
 } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 
 import { SearchService } from './search.service';
 
@@ -14,17 +15,24 @@ describe('SearchService', () => {
   let service: SearchService;
   let backend: XHRBackend;
   let defaultOptions: BaseRequestOptions;
-  beforeEach(() => { service = new SearchService(new Http(backend, defaultOptions)); });
+  const http = new Http(backend, defaultOptions);
 
-  describe('checkRepos', () => {
-    it('returns true if repos is greater than 0', () => {
-      spyOn(service, 'getRepos').and.returnValue([1,2,3]);
+  beforeEach(() => { service = new SearchService(http); });
 
-      expect(service.checkRepos()).toBe(true);
-    });
-
+  describe('search', () => {
     it('returns false if repos is less than 1', () => {
-      expect(service.checkRepos()).toBe(false);
+      let query = 'GSA';
+      let from = 0;
+      let size = 15;
+      let queryParams = query + '&from=' + from + '&size=' + size;
+      let queryUrl = API_URL + 'repos?_fulltext=' + queryParams;
+
+      spyOn(http, 'get').and.returnValue(
+        Observable.of({response: 'Success'}
+      ));
+      service.search(from, size, 'GSA');
+
+      expect(http.get).toHaveBeenCalledWith(queryUrl);
     });
   });
 });

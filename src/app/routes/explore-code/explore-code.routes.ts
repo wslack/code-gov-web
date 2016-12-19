@@ -30,8 +30,7 @@ export const EXPLORE_CODE_ROUTES: Routes = [
         children: [
           { path: ':id', component: RepoComponent }
         ]
-      },
-      { path: 'results', component: SearchResultsComponent }
+      }
     ]
   }
 ];

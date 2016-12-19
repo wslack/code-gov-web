@@ -14,178 +14,59 @@ import { PluralizePipe } from '../../../pipes/pluralize';
 import { ReposSearchComponent } from '../../repos-search';
 import { SearchResultsComponent } from './';
 import { SearchService } from '../../../services/search';
+import { StateService } from '../../../services/state';
 import { TruncatePipe } from '../../../pipes/truncate';
 
 describe('SearchResultsComponent', () => {
 
-  describe('getMoreRepos', () => {
-
-    describe(
-      'when the repo count is greater than or equal to the number of' +
-      'Displayed Repos ', () => {
-        beforeEach(() => {
-          TestBed.configureTestingModule({
-            declarations: [
-              LanguageIconPipe,
-              PluralizePipe,
-              ReposSearchComponent,
-              SearchResultsComponent,
-              TruncatePipe
-            ],
-            imports: [
-              HttpModule,
-              InfiniteScrollModule,
-              ReactiveFormsModule,
-              RouterModule
-            ],
-            providers: [
-              { provide: SearchService, useClass: MockSearchService },
-              { provide: Router, useClass: MockRouter }
-            ]
-          });
-
-          let service = TestBed.get(SearchService, null);
-
-          spyOn(service, 'getDisplayedRepos').and.returnValue(5);
-          spyOn(service, 'getReposCount').and.returnValue(5);
-
-          this.fixture = TestBed.createComponent(SearchResultsComponent);
-          this.searchResultsComponent = this.fixture.componentInstance;
-        });
-
-        it('does nothing', inject([SearchService], searchService => {
-          spyOn(searchService, 'search');
-
-          this.searchResultsComponent.getMoreRepos();
-
-          expect(searchService.search).not.toHaveBeenCalled();
-        }));
-      }
-    );
-
-    describe(
-      'when the number of Displayed Repos is less than the total number ' +
-      'of Repos', () => {
-        beforeEach(() => {
-          TestBed.configureTestingModule({
-            declarations: [
-              LanguageIconPipe,
-              PluralizePipe,
-              ReposSearchComponent,
-              SearchResultsComponent,
-              TruncatePipe
-            ],
-            imports: [
-              HttpModule,
-              InfiniteScrollModule,
-              ReactiveFormsModule,
-              RouterTestingModule
-            ],
-            providers: [
-              { provide: SearchService, useClass: MockSearchService },
-              { provide: Router, useClass: MockRouter }
-            ]
-          });
-
-          let service = TestBed.get(SearchService, null);
-
-          spyOn(service, 'getDisplayedRepos').and.returnValue(4);
-          spyOn(service, 'getReposCount').and.returnValue(5);
-
-          this.fixture = TestBed.createComponent(SearchResultsComponent);
-          this.searchResultsComponent = this.fixture.componentInstance;
-        });
-
-        it('calls the Search Service search function',
-          inject([SearchService], searchService => {
-            spyOn(searchService, 'getSearchStart').and.returnValue(4);
-            spyOn(searchService, 'getQuery').and.returnValue('GSA');
-            spyOn(searchService, 'search').and.callThrough();
-
-            this.searchResultsComponent.getMoreRepos();
-
-            expect(searchService.search).toHaveBeenCalledWith(
-              searchService.getSearchStart(),
-              10,
-              searchService.getQuery()
-            );
-          }
-        ));
-      }
-    );
-  });
-
-  describe('ngOnInit', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          LanguageIconPipe,
-          PluralizePipe,
-          ReposSearchComponent,
-          SearchResultsComponent,
-          TruncatePipe
-        ],
-        imports: [
-          HttpModule,
-          InfiniteScrollModule,
-          ReactiveFormsModule,
-          RouterTestingModule.withRoutes([
-           {
-             path: 'explore-code/repos/:id',
-             component: SearchResultsComponent
-           }
-          ])
-        ],
-        providers: [
-          { provide: SearchService, useClass: MockSearchService }
-        ]
-      });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        LanguageIconPipe,
+        PluralizePipe,
+        ReposSearchComponent,
+        SearchResultsComponent,
+        TruncatePipe
+      ],
+      imports: [
+        HttpModule,
+        InfiniteScrollModule,
+        ReactiveFormsModule,
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: SearchService, useClass: MockSearchService },
+        { provide: StateService, useClass: MockStateService },
+        { provide: ActivatedRoute, useClass: MockRouter }
+      ]
     });
 
-    it('subscribes to the searchResults from the SearchService',
+    this.fixture = TestBed.createComponent(SearchResultsComponent);
+    this.searchResultsComponent = this.fixture.componentInstance;
+  });
+
+  describe('getMoreRepos', () => {
+    /*
+    it('calls the Search Service search function',
       inject([SearchService], searchService => {
-        spyOn(searchService, 'searchResults').and.callFake(function() {
-          return Observable.of([{repoId: 1}, {repoId: 2}])
-        });
+        spyOn(searchService, 'search').and.callThrough();
 
-        let fixture = TestBed.createComponent(SearchResultsComponent);
-        fixture.detectChanges();
-
-        expect(searchService.searchResults).toHaveBeenCalled();
-      })
-    );
+        this.searchResultsComponent.getMoreRepos();
+        expect(searchService.search).toHaveBeenCalledWith(
+          0,
+          15,
+          ''
+        );
+      }
+    ));
+    */
   });
 
   describe('onScroll', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          LanguageIconPipe,
-          PluralizePipe,
-          ReposSearchComponent,
-          SearchResultsComponent,
-          TruncatePipe
-        ],
-        imports: [
-          HttpModule,
-          InfiniteScrollModule,
-          ReactiveFormsModule,
-          RouterTestingModule
-        ],
-        providers: [
-          { provide: SearchService, useClass: MockSearchService }
-        ]
-      });
-
-      this.fixture = TestBed.createComponent(SearchResultsComponent);
-      this.searchResultsComponent = this.fixture.componentInstance;
-    });
-
-    it('calls the getMoreRepos function', () => {
+    it('triggers the getMoreRepos function', () => {
       spyOn(this.searchResultsComponent, 'getMoreRepos');
 
       this.searchResultsComponent.onScroll();
-
       expect(this.searchResultsComponent.getMoreRepos).toHaveBeenCalled();
     });
   });
@@ -197,60 +78,22 @@ class MockRouter {
     this.url = '/explore-code/';
   }
 
-  navigateByUrl() {
+  navigateByUrl(arg) {
     return true;
   }
 }
 
 class MockSearchService {
   result = {total: 3, repos: [{name: 'GSA'}, {name: 'GSA 2'}, {name: 'GSA 3'}]};
-  repos: any = this.result['repos'];
-
-  addDisplayedRepos(value) {
-    return true;
-  }
-
-  addSearchStart(value) {
-    return true;
-  }
-
-  checkRepos() {
-    if (this.getRepos() != null && this.getRepos().length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  getDisplayedRepos() {
-    return 2;
-  }
-
-  getRepos() {
-    return this.repos;
-  }
-
-  getReposCount() {
-    return this.result['total'];
-  }
-
-  getSearchStart() {
-    return 2;
-  }
-
-  getQuery() {
-    return 'GSA';
-  }
 
   search(arg, arg2, arg3) {
     return Observable.of(this.result);
   }
+}
 
-  searchResults() {
-    return Observable.of(this.repos);
-  }
+class MockStateService {
 
-  setSearchResults(result) {
+  set(arg, arg2) {
     return true;
   }
 }

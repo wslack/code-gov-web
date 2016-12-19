@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -12,10 +12,13 @@ import { SearchService } from '../../services/search';
 
 @Component({
   selector: 'repos-search',
-  template: require('./repos-search.template.html')
+  template: require('./repos-search.template.html'),
+  styles: [require('./repos-search.style.scss')],
 })
 
 export class ReposSearchComponent {
+  @Input() queryValue: string;
+
   constructor(
     public formBuilder: FormBuilder,
     private searchService: SearchService,
@@ -24,15 +27,9 @@ export class ReposSearchComponent {
 
   searchForm: FormGroup;
 
-  navigateToResults() {
-    if (this.router.url != '/explore-code/results') {
-      this.router.navigateByUrl('/explore-code/results');
-    }
-  }
-
   ngOnInit() {
-      this.searchForm = this.formBuilder.group({
-        query: [''],
+    this.searchForm = this.formBuilder.group({
+      query: [''],
     });
   }
 
@@ -41,18 +38,6 @@ export class ReposSearchComponent {
   }
 
   search(query: string) {
-    this.searchService.search(0, 10, query).subscribe(
-      result => {
-        if (result) {
-          this.searchService.setSearchResults(result['repos'], result['total']);
-          this.navigateToResults();
-        } else {
-          console.log("No Repos Found");
-        }
-      },
-      error => {
-        console.log(error)
-      }
-    );
+    this.router.navigateByUrl('/search?q=' + query);
   }
 }

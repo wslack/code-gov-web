@@ -1,0 +1,24 @@
+@import '../../../styles/base/all';
+
+input {
+  @include span-columns(9);
+  margin-top: 0;
+
+  &[type="submit"] {
+    @include span-columns(3);
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+input,
+label {
+  max-width: none;
+}
+
+label {
+  height: 0px;
+  overflow: none;
+  text-align: left;
+  text-indent: -9999px;
+}
