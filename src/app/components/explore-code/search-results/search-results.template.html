@@ -10,7 +10,7 @@
     <div class="content-col">
       <div *ngIf="hasRepos" class="repos-container">
         <p class="repos-count">
-          {{ repos.length }} Featured {{ "Projects" | pluralize : repos.length }}
+          We found {{ reposTotal }} {{ "Repositories" | pluralize : reposTotal }}
         </p>
         <ul class="repos-list usa-unstyled-list"
           infinite-scroll
