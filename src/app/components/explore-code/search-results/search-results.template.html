@@ -1,39 +1,50 @@
 <div class="search-results-content">
-  <div class="usa-grid">
-    <repos-search [queryValue]="query"></repos-search>
-    <div *ngIf="hasRepos" class="repos-container">
-      <p class="repos-count">
-        {{ repos.length }} Featured {{ "Projects" | pluralize : repos.length }}
-      </p>
-      <ul class="repos-list usa-unstyled-list"
-        infinite-scroll
-        [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="500"
-        (scrolled)="onScroll()">
-        <li *ngFor="let repo of repos" class="repo">
-          <a routerLink="/explore-code/repos/{{repo.repoID}}">
-            <h3 class="repo-name">{{ repo.name }}</h3>
-            <p class="repo-description">
-              {{ repo.description | truncate : 200 }}
-            </p>
-            <ul class="usa-unstyled-list repo-features">
-              <li *ngFor="let language of repo.codeLanguage" class="language">
-                <i class="devicons devicons-{{language.language | lowercase | languageIcon }}"></i>
-                <span>{{ language.language }}</span>
-              </li>
-              <li>
-                <i class="fa fa-code"></i><span>Open Source</span>
-              </li>
-            </ul>
-          </a>
-        </li>
-      </ul>
+  <div class="search-container">
+    <div class="usa-grid">
+      <div class="content-col">
+        <repos-search [queryValue]="query"></repos-search>
+      </div>
     </div>
+  </div>
+  <div class="usa-grid">
+    <div class="content-col">
+      <div *ngIf="hasRepos" class="repos-container">
+        <p class="repos-count">
+          {{ repos.length }} Featured {{ "Projects" | pluralize : repos.length }}
+        </p>
+        <ul class="repos-list usa-unstyled-list"
+          infinite-scroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="onScroll()">
+          <li *ngFor="let repo of repos" class="repo">
+            <a routerLink="/explore-code/repos/{{repo.repoID}}">
+              <h3 class="repo-name">{{ repo.name }}</h3>
+              <p class="repo-description">
+                {{ repo.description | truncate : 200 }}
+              </p>
+              <ul class="usa-unstyled-list repo-features">
+                <li *ngFor="let language of repo.codeLanguage" class="language">
+                  <i class="devicons devicons-{{language.language | lowercase | languageIcon }}"></i>
+                  <span>{{ language.language }}</span>
+                </li>
+                <li>
+                  <i class="fa fa-code"></i><span>Open Source</span>
+                </li>
+              </ul>
+            </a>
+          </li>
+        </ul>
+        <button *ngIf="showLoadMore" (click)="loadMore()" class="load-more-button">
+          Load More Repos
+        </button>
+      </div>
 
-    <div *ngIf="!hasRepos">
-      <p>
-        No repositories found.
-      </p>
+      <div *ngIf="!hasRepos" class="no-repos">
+        <p>
+          No repositories found.
+        </p>
+      </div>
     </div>
   </div>
 </div>

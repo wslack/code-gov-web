@@ -45,6 +45,12 @@ describe('SearchResultsComponent', () => {
     this.searchResultsComponent = this.fixture.componentInstance;
   });
 
+  describe('checkRepos', () => {
+    it('returns false if no repos', () => {
+      expect(this.searchResultsComponent.checkRepos()).toBe(false);
+    });
+  });
+
   describe('getMoreRepos', () => {
     /*
     it('calls the Search Service search function',
@@ -70,6 +76,12 @@ describe('SearchResultsComponent', () => {
       expect(this.searchResultsComponent.getMoreRepos).toHaveBeenCalled();
     });
   });
+
+  describe('remainingRepos', () => {
+    it('returns false if searchStart is < reposTotal', () => {
+      expect(this.searchResultsComponent.remainingRepos()).toBe(false);
+    });
+  })
 });
 
 class MockRouter {

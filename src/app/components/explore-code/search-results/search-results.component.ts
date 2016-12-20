@@ -10,15 +10,19 @@ import { StateService } from '../../../services/state';
 
 @Component({
   selector: 'search-results',
+  styles: [require('./search-results.styles.scss')],
   template: require('./search-results.template.html')
 })
 
 export class SearchResultsComponent {
   public hasRepos: boolean = false;
+  public showLoadMore: boolean = false;
   public repos: any;
   private numberOfReposToFetch: number = 15;
+  private loadedRepos: any;
   private query: string = '';
-  private reposTotal: number;
+  private reposTotal: number = 0;
+  private scrollTriggered: boolean = false;
   private searchStart: number = 0;
   private reposSub: Subscription;
 
@@ -31,37 +35,43 @@ export class SearchResultsComponent {
   }
 
   checkRepos(): boolean {
-    if (this.repos != null && this.repos.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.repos != null && this.repos.length > 0;
   }
 
   getMoreRepos() {
-    if (this.searchStart < this.reposTotal) {
-      this.searchService.search(
-        this.searchStart,
-        this.numberOfReposToFetch,
-        this.query
-      )
-      .subscribe(
-        result => {
-          if (result) {
-            let returnedReposCount = result['repos'].length
-            this.searchStart += returnedReposCount;
-            this.repos.push(...result['repos']);
-          } else {
-            console.log("No Repos Found");
-          }
-        },
-        error => {
-          console.log(error)
+    this.searchService.search(
+      this.searchStart,
+      this.numberOfReposToFetch,
+      this.query
+    )
+    .subscribe(
+      result => {
+        if (result) {
+          this.scrollTriggered = true;
+          this.loadedRepos = result['repos'];
+        } else {
+          console.log("No Repos Found");
         }
-      );
-    }
+      },
+      error => {
+        console.log(error)
+      }
+    );
   }
 
+  loadMore() {
+    if (this.remainingRepos()) {
+      let returnedReposCount = this.loadedRepos.length
+      this.repos.push(...this.loadedRepos);
+      this.searchStart += returnedReposCount;
+
+      if (this.remainingRepos()) {
+        this.scrollTriggered = false;
+      } else {
+        this.showLoadMore = false;
+      }
+    }
+  }
 
   newSearch(): Observable<any> {
     return this.activatedRoute.queryParams.map((params) => {
@@ -84,6 +94,7 @@ export class SearchResultsComponent {
         this.reposTotal = response.total;
         this.repos = response.repos;
         this.hasRepos = this.checkRepos();
+        this.showLoadMore = this.remainingRepos();
       }
     );
   }
@@ -100,6 +111,12 @@ export class SearchResultsComponent {
 
   onScroll() {
     //Triggered by Infinite Scroll
-    this.getMoreRepos();
+    if (this.scrollTriggered === false) {
+      this.getMoreRepos();
+    }
+  }
+
+  remainingRepos(): boolean {
+    return this.searchStart < this.reposTotal;
   }
 }

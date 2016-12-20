@@ -1,0 +1,80 @@
+@import '../../../../styles/base/all';
+@import '../../../../styles/utils/all';
+
+.content-col {
+  @include span-columns(9);
+}
+
+.load-more-button {
+  font-size: 1.1em;
+  margin-top: 1em;
+  padding: 0.75em 2em;
+}
+
+.no-repos {
+  margin-top: 3em;
+}
+
+.repo {
+
+  a {
+    @extend %card;
+    @include transition(all 0.2s ease);
+    color: $color-gray;
+    display: block;
+    font-size: 0.95em;
+    margin-bottom: 1em;
+    text-decoration: none;
+
+    &:hover {
+      box-shadow: 0 3px 5px rgba($color-gray-dark, 0.25);
+
+      h3 {
+        color: $color-primary;
+      }
+    }
+  }
+
+  h3 {
+    margin-bottom: 0.2em;
+  }
+
+  p {
+    font-size: 0.95em;
+    margin: 0;
+  }
+}
+
+.repo-features {
+  margin-top: 0.2em;
+
+  i {
+    color: $brand-teal;
+  }
+
+  li {
+    display: inline-block;
+    margin-right: 0.75em;
+
+    &:last-child {
+      margin-right: 0;
+
+      i {
+        margin-right: 0.2em;
+      }
+    }
+  }
+}
+
+.search-container {
+  background-color: darken($color-gray-lightest, 5);
+  padding: 0.5em 0;
+}
+
+.search-results-content {
+  padding-bottom: 4em;
+
+  @include media($medium-screen) {
+    min-height: 25em;
+  }
+}
