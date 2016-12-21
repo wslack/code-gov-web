@@ -7,19 +7,11 @@ import 'rxjs/add/operator/map';
 @Injectable()
 
 export class SearchService {
-  public query: string;
-  private displayedRepos: number;
-  private repos: Array<any>;
-  private reposCount: number;
-  private results = new Subject<boolean>();
-  private searchStart: number;
 
   constructor(private http: Http) {}
 
   search(from: number, size: number, query: string): Observable<Response> {
-    this.query = query;
-
-    let queryParams = '?_fulltext=' + query + '&from=' + from + '&size=' + size;
+    let queryParams = '?' + query + '&from=' + from + '&size=' + size;
     let queryUrl = API_URL + 'repos' + queryParams;
 
     return this.http.get(queryUrl).map(

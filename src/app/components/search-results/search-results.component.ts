@@ -15,16 +15,9 @@ import { StateService } from '../../services/state';
 })
 
 export class SearchResultsComponent {
-  public hasRepos: boolean = false;
-  public showLoadMore: boolean = false;
-  public repos: any;
-  private numberOfReposToFetch: number = 15;
-  private loadedRepos: any;
-  private query: string = '';
-  private reposTotal: number = 0;
-  private scrollTriggered: boolean = false;
-  private searchStart: number = 0;
-  private reposSub: Subscription;
+  public searchQuery: string = '';
+  private queryValue: string = '';
+  private activeRouteSub: Subscription;
 
   constructor(
     public stateService: StateService,
@@ -34,89 +27,26 @@ export class SearchResultsComponent {
     this.stateService.set('section', 'explore-code');
   }
 
-  checkRepos(): boolean {
-    return this.repos != null && this.repos.length > 0;
+  activeRoute$(): Observable<any> {
+    return this.activatedRoute.queryParams;
   }
 
-  getMoreRepos() {
-    this.searchService.search(
-      this.searchStart,
-      this.numberOfReposToFetch,
-      this.query
-    )
-    .subscribe(
-      result => {
-        if (result) {
-          this.scrollTriggered = true;
-          this.loadedRepos = result['repos'];
-        } else {
-          console.log("No Repos Found");
-        }
-      },
-      error => {
-        console.log(error)
-      }
-    );
-  }
-
-  loadMore() {
-    if (this.remainingRepos()) {
-      let returnedReposCount = this.loadedRepos.length
-      this.repos.push(...this.loadedRepos);
-      this.searchStart += returnedReposCount;
-
-      if (this.remainingRepos()) {
-        this.scrollTriggered = false;
-      } else {
-        this.showLoadMore = false;
-      }
-    }
-  }
-
-  newSearch(): Observable<any> {
-    return this.activatedRoute.queryParams.map((params) => {
-      //Get the Query Param from the URL
-      this.query = params['q'];
-    }).flatMap(() => {
-      //Perform a Search
-      return this.searchService.search(
-        this.searchStart,
-        this.numberOfReposToFetch,
-        this.query
-      );
-    });
-  }
-
-  newSearchSubscription(): Subscription {
-    return this.newSearch().subscribe(
+  newRouteSubscription(): Subscription {
+    return this.activeRoute$().subscribe(
       (response: any) => {
-        this.searchStart = response.repos.length;
-        this.reposTotal = response.total;
-        this.repos = response.repos;
-        this.hasRepos = this.checkRepos();
-        this.showLoadMore = this.remainingRepos();
+        this.queryValue = response.q;
+        this.searchQuery = '_fulltext=' + this.queryValue;
       }
     );
   }
 
   ngOnDestroy() {
-    if (typeof this.reposSub !== 'undefined') {
-      this.reposSub.unsubscribe();
+    if (typeof this.activeRouteSub !== 'undefined') {
+      this.activeRouteSub.unsubscribe();
     }
   }
 
   ngOnInit() {
-    this.reposSub = this.newSearchSubscription();
-  }
-
-  onScroll() {
-    //Triggered by Infinite Scroll
-    if (this.scrollTriggered === false) {
-      this.getMoreRepos();
-    }
-  }
-
-  remainingRepos(): boolean {
-    return this.searchStart < this.reposTotal;
+    this.activeRouteSub = this.newRouteSubscription();
   }
 }

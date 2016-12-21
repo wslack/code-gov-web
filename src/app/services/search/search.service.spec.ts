@@ -21,16 +21,16 @@ describe('SearchService', () => {
 
   describe('search', () => {
     it('returns false if repos is less than 1', () => {
-      let query = 'GSA';
+      let query = '_fulltext=GSA';
       let from = 0;
       let size = 15;
       let queryParams = query + '&from=' + from + '&size=' + size;
-      let queryUrl = API_URL + 'repos?_fulltext=' + queryParams;
+      let queryUrl = API_URL + 'repos?' + queryParams;
 
       spyOn(http, 'get').and.returnValue(
         Observable.of({response: 'Success'}
       ));
-      service.search(from, size, 'GSA');
+      service.search(from, size, '_fulltext=GSA');
 
       expect(http.get).toHaveBeenCalledWith(queryUrl);
     });

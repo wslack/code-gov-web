@@ -12,22 +12,19 @@ import { Observable } from 'rxjs/Rx';
 import { LanguageIconPipe } from '../../pipes/language-icon';
 import { PluralizePipe } from '../../pipes/pluralize';
 import { RepoListItemComponent } from '../repo-list-item';
-import { ReposSearchComponent } from '../repos-search';
-import { SearchResultsComponent } from './';
+import { RepoListComponent } from './';
 import { SearchService } from '../../services/search';
-import { StateService } from '../../services/state';
 import { TruncatePipe } from '../../pipes/truncate';
 
-describe('SearchResultsComponent', () => {
+describe('RepoListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         LanguageIconPipe,
         PluralizePipe,
+        RepoListComponent,
         RepoListItemComponent,
-        ReposSearchComponent,
-        SearchResultsComponent,
         TruncatePipe
       ],
       imports: [
@@ -37,19 +34,17 @@ describe('SearchResultsComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        { provide: SearchService, useClass: MockSearchService },
-        { provide: StateService, useClass: MockStateService },
-        { provide: ActivatedRoute, useClass: MockRouter }
+        { provide: SearchService, useClass: MockSearchService }
       ]
     });
 
-    this.fixture = TestBed.createComponent(SearchResultsComponent);
-    this.searchResultsComponent = this.fixture.componentInstance;
+    this.fixture = TestBed.createComponent(RepoListComponent);
+    this.repoListComponent = this.fixture.componentInstance;
   });
 
   describe('checkRepos', () => {
     it('returns false if no repos', () => {
-      expect(this.searchResultsComponent.checkRepos()).toBe(false);
+      expect(this.repoListComponent.checkRepos()).toBe(false);
     });
   });
 
@@ -59,7 +54,7 @@ describe('SearchResultsComponent', () => {
       inject([SearchService], searchService => {
         spyOn(searchService, 'search').and.callThrough();
 
-        this.searchResultsComponent.getMoreRepos();
+        this.repoListComponent.getMoreRepos();
         expect(searchService.search).toHaveBeenCalledWith(
           0,
           15,
@@ -72,16 +67,16 @@ describe('SearchResultsComponent', () => {
 
   describe('onScroll', () => {
     it('triggers the getMoreRepos function', () => {
-      spyOn(this.searchResultsComponent, 'getMoreRepos');
+      spyOn(this.repoListComponent, 'getMoreRepos');
 
-      this.searchResultsComponent.onScroll();
-      expect(this.searchResultsComponent.getMoreRepos).toHaveBeenCalled();
+      this.repoListComponent.onScroll();
+      expect(this.repoListComponent.getMoreRepos).toHaveBeenCalled();
     });
   });
 
   describe('remainingRepos', () => {
     it('returns false if searchStart is < reposTotal', () => {
-      expect(this.searchResultsComponent.remainingRepos()).toBe(false);
+      expect(this.repoListComponent.remainingRepos()).toBe(false);
     });
   })
 });
@@ -102,12 +97,5 @@ class MockSearchService {
 
   search(arg, arg2, arg3) {
     return Observable.of(this.result);
-  }
-}
-
-class MockStateService {
-
-  set(arg, arg2) {
-    return true;
   }
 }
