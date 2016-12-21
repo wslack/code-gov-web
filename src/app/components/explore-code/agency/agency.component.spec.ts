@@ -9,6 +9,7 @@ import { AgencyComponent } from './index';
 import { AgencyService } from '../../../services/agency';
 import { LanguageIconPipe } from '../../../pipes/language-icon';
 import { PluralizePipe } from '../../../pipes/pluralize';
+import { RepoListItemComponent } from '../../repo-list-item';
 import { ReposService } from '../../../services/repos';
 import { SeoService } from '../../../services/seo';
 import { TruncatePipe } from '../../../pipes/truncate';
@@ -22,6 +23,7 @@ describe('AgencyComponent', () => {
         AgencyComponent,
         LanguageIconPipe,
         PluralizePipe,
+        RepoListItemComponent,
         TruncatePipe
       ],
       imports: [

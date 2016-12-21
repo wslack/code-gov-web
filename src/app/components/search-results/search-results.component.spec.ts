@@ -9,13 +9,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { Observable } from 'rxjs/Rx';
 
-import { LanguageIconPipe } from '../../../pipes/language-icon';
-import { PluralizePipe } from '../../../pipes/pluralize';
-import { ReposSearchComponent } from '../../repos-search';
+import { LanguageIconPipe } from '../../pipes/language-icon';
+import { PluralizePipe } from '../../pipes/pluralize';
+import { RepoListItemComponent } from '../repo-list-item';
+import { ReposSearchComponent } from '../repos-search';
 import { SearchResultsComponent } from './';
-import { SearchService } from '../../../services/search';
-import { StateService } from '../../../services/state';
-import { TruncatePipe } from '../../../pipes/truncate';
+import { SearchService } from '../../services/search';
+import { StateService } from '../../services/state';
+import { TruncatePipe } from '../../pipes/truncate';
 
 describe('SearchResultsComponent', () => {
 
@@ -24,6 +25,7 @@ describe('SearchResultsComponent', () => {
       declarations: [
         LanguageIconPipe,
         PluralizePipe,
+        RepoListItemComponent,
         ReposSearchComponent,
         SearchResultsComponent,
         TruncatePipe

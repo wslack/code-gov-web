@@ -4,7 +4,9 @@ export * from '../../components/home';
 export * from '../../components/home/banner-art';
 export * from '../../components/modal';
 export * from '../../components/privacy-policy';
+export * from '../../components/repo-list-item';
 export * from '../../components/repos-search';
+export * from '../../components/search-results';
 
 export * from '../../components/explore-code';
 export * from '../../components/explore-code/activity-list';
@@ -13,7 +15,6 @@ export * from '../../components/explore-code/agencies/agency-sidebar';
 export * from '../../components/explore-code/agency';
 export * from '../../components/explore-code/repo';
 export * from '../../components/explore-code/repos';
-export * from '../../components/explore-code/search-results';
 
 export * from '../../components/policy-guide';
 export * from '../../components/policy-guide/docs';

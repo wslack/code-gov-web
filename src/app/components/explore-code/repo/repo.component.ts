@@ -51,6 +51,7 @@ export class RepoComponent implements OnInit, OnDestroy {
           this.seoService.setTitle(this.repo.name, true);
           this.seoService.setMetaDescription(this.repo.description);
           this.seoService.setMetaRobots('Index, Follow');
+          console.log(this.repo);
         } else {
           this.navigateTo404();
         }

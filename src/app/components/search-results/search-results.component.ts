@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
-import { SearchService } from '../../../services/search';
-import { StateService } from '../../../services/state';
+import { SearchService } from '../../services/search';
+import { StateService } from '../../services/state';
 
 @Component({
   selector: 'search-results',

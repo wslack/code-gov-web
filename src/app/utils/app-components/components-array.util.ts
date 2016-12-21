@@ -31,6 +31,7 @@ import {
   OverviewTrackingProgressComponent,
   PolicyGuideComponent,
   PrivacyPolicyComponent,
+  RepoListItemComponent,
   RepoComponent,
   ReposComponent,
   ReposSearchComponent,
@@ -71,6 +72,7 @@ export const APP_COMPONENTS = [
   PolicyGuideComponent,
   PrivacyPolicyComponent,
   RepoComponent,
+  RepoListItemComponent,
   ReposComponent,
   ReposSearchComponent,
   SearchResultsComponent
