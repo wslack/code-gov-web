@@ -1,20 +1,5 @@
 <div *ngIf="agency" class="agency-container">
   <h1>{{ agency.name }}</h1>
 
-  <div *ngIf="hasRepos" class="repos-container">
-    <p class="repos-count">
-      {{ repos.length }} Featured {{ "Projects" | pluralize : repos.length }}
-    </p>
-    <ul class="repos-list usa-unstyled-list">
-      <li *ngFor="let repo of repos" class="repo">
-        <repo-list-item [repo]="repo"></repo-list-item>
-      </li>
-    </ul>
-  </div>
-
-  <div *ngIf="!hasRepos">
-    <p>
-      No repositories found.
-    </p>
-  </div>
+  <repo-list [query]="searchQuery"></repo-list>
 </div>

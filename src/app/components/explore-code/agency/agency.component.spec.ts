@@ -3,14 +3,16 @@ import { Component } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { inject, TestBed } from '@angular/core/testing';
 
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { Observable } from 'rxjs/Rx';
 
 import { AgencyComponent } from './index';
 import { AgencyService } from '../../../services/agency';
 import { LanguageIconPipe } from '../../../pipes/language-icon';
 import { PluralizePipe } from '../../../pipes/pluralize';
+import { RepoListComponent } from '../../repo-list';
 import { RepoListItemComponent } from '../../repo-list-item';
-import { ReposService } from '../../../services/repos';
+import { SearchService } from '../../../services/search';
 import { SeoService } from '../../../services/seo';
 import { TruncatePipe } from '../../../pipes/truncate';
 
@@ -23,16 +25,18 @@ describe('AgencyComponent', () => {
         AgencyComponent,
         LanguageIconPipe,
         PluralizePipe,
+        RepoListComponent,
         RepoListItemComponent,
         TruncatePipe
       ],
       imports: [
         HttpModule,
+        InfiniteScrollModule,
         RouterModule
       ],
       providers: [
         AgencyService,
-        ReposService,
+        SearchService,
         SeoService,
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
@@ -40,34 +44,6 @@ describe('AgencyComponent', () => {
 
     this.fixture = TestBed.createComponent(AgencyComponent);
     this.agencyComponent = this.fixture.componentInstance;
-  });
-
-  describe('checkRepos', () => {
-    it('returns false when repos do not exist', () => {
-      let repos = [];
-      expect(this.agencyComponent.checkRepos(repos)).toBe(false);
-    });
-
-    it('returns true when repos exist', () => {
-      let repos = [{id: 1, name: 'Repo'}];
-      expect(this.agencyComponent.checkRepos(repos)).toBe(true);
-    });
-  });
-
-  describe('filterByAgency', () => {
-    it('returns false when a repo’s Agency does not match', () => {
-      spyOn(this.agencyComponent, 'agencyId').and.returnValue('DOL');
-      let repo = {agency: 'AAA'};
-
-      expect(this.agencyComponent.filterByAgency(repo)).toBe(false);
-    });
-
-    it('returns true when a repo’s Agency matches', () => {
-      spyOn(this.agencyComponent, 'agencyId').and.returnValue('DOL');
-      let repo = {agency: 'DOL'};
-
-      expect(this.agencyComponent.filterByAgency(repo)).toBe(true);
-    });
   });
 
   describe('destroy', () => {

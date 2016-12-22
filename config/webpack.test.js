@@ -144,6 +144,17 @@ module.exports = function (options) {
           exclude: [helpers.root('src/index.html')]
         },
 
+        {
+          test: /\.(jpe?g|png|gif|svg)$/,
+          loader: 'file',
+          options: {
+            watched: false,
+            included: false,
+            served: true,
+            nocache: false
+          }
+        },
+
         /**
          * Instruments JS files with Istanbul for subsequent code coverage reporting.
          * Instrument only testing sources.

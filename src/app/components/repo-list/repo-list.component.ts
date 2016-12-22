@@ -85,6 +85,8 @@ export class RepoListComponent {
   }
 
   ngOnChanges() {
+    this.reposTotal = 0;
+    this.searchStart = 0;
     this.reposSub = this.newSearchSubscription();
   }
 
