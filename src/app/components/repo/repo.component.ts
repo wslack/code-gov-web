@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { AgencyService, Agency } from '../../../services/agency';
-import { ExternalLinkDirective } from '../../../directives/external-link';
-import { RepoService } from '../../../services/repo';
-import { SeoService } from '../../../services/seo';
+import { AgencyService, Agency } from '../../services/agency';
+import { ExternalLinkDirective } from '../../directives/external-link';
+import { RepoService } from '../../services/repo';
+import { SeoService } from '../../services/seo';
 
 @Component({
   selector: 'repo',

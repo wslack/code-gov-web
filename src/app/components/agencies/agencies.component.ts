@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MobileService } from '../../../services/mobile';
+import { MobileService } from '../../services/mobile';
 
 @Component({
   selector: 'agencies',

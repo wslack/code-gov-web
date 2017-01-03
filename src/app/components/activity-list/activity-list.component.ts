@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
 
 import { RepoComponent } from '../repo';
-import { TruncatePipe } from '../../../pipes/truncate';
+import { TruncatePipe } from '../../pipes/truncate';
 
 @Component({
   selector: 'activity-list',

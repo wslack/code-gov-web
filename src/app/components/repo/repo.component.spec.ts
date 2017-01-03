@@ -9,17 +9,17 @@ import { By } from '@angular/platform-browser';
 import { Angulartics2, Angulartics2Module } from 'angulartics2';
 import { Observable } from 'rxjs/Rx';
 
-import { AgencyService } from '../../../services/agency';
-import { ExternalLinkDirective } from '../../../directives/external-link';
-import { RepoComponent } from './index';
-import { RepoService } from '../../../services/repo';
-import { SeoService } from '../../../services/seo';
-import { LanguageIconPipe } from './../../../pipes/language-icon/language-icon.pipe';
-import { TruncatePipe } from './../../../pipes/truncate/truncate.pipe';
-import { ModalComponent } from './../../modal/modal.component';
-import { ActivityListComponent } from './../activity-list/activity-list.component';
-import { ModalService } from './../../../services/modal/modal.service';
-import { IsDefinedPipe } from './../../../pipes/is-defined/is-defined.pipe';
+import { AgencyService } from '../../services/agency';
+import { ExternalLinkDirective } from '../../directives/external-link';
+import { RepoComponent } from './';
+import { RepoService } from '../../services/repo';
+import { SeoService } from '../../services/seo';
+import { LanguageIconPipe } from '../../pipes/language-icon';
+import { TruncatePipe } from '../../pipes/truncate';
+import { ModalComponent } from '../modal';
+import { ActivityListComponent } from '../activity-list';
+import { ModalService } from '../../services/modal';
+import { IsDefinedPipe } from '../../pipes/is-defined';
 
 // set test repository id used throughout to Dept of Veterans Affairs
 let id = '33202667';

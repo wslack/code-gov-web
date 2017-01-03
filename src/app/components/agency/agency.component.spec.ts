@@ -7,14 +7,14 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { Observable } from 'rxjs/Rx';
 
 import { AgencyComponent } from './index';
-import { AgencyService } from '../../../services/agency';
-import { LanguageIconPipe } from '../../../pipes/language-icon';
-import { PluralizePipe } from '../../../pipes/pluralize';
-import { RepoListComponent } from '../../repo-list';
-import { RepoListItemComponent } from '../../repo-list-item';
-import { SearchService } from '../../../services/search';
-import { SeoService } from '../../../services/seo';
-import { TruncatePipe } from '../../../pipes/truncate';
+import { AgencyService } from '../../services/agency';
+import { LanguageIconPipe } from '../../pipes/language-icon';
+import { PluralizePipe } from '../../pipes/pluralize';
+import { RepoListComponent } from '../repo-list';
+import { RepoListItemComponent } from '../repo-list-item';
+import { SearchService } from '../../services/search';
+import { SeoService } from '../../services/seo';
+import { TruncatePipe } from '../../pipes/truncate';
 
 
 describe('AgencyComponent', () => {

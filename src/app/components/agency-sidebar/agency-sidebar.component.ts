@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AgencyService, Agency } from '../../../../services/agency';
-import { MobileService } from '../../../../services/mobile';
+import { AgencyService, Agency } from '../../services/agency';
+import { MobileService } from '../../services/mobile';
 
 @Component({
   selector: 'agency-sidebar',

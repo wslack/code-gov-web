@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { AgencyService, Agency } from '../../../services/agency';
-import { LanguageIconPipe } from '../../../pipes/language-icon';
-import { PluralizePipe } from '../../../pipes/pluralize';
-import { SeoService } from '../../../services/seo';
-import { TruncatePipe } from '../../../pipes/truncate';
+import { AgencyService, Agency } from '../../services/agency';
+import { LanguageIconPipe } from '../../pipes/language-icon';
+import { PluralizePipe } from '../../pipes/pluralize';
+import { SeoService } from '../../services/seo';
+import { TruncatePipe } from '../../pipes/truncate';
 
 @Component({
   selector: 'agency',
