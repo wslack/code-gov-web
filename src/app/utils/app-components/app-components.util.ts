@@ -1,5 +1,6 @@
 export * from '../../components/activity-list';
 export * from '../../components/agencies';
+export * from '../../components/agencies-list';
 export * from '../../components/agency';
 export * from '../../components/agency-sidebar';
 export * from '../../components/app';

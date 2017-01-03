@@ -1,6 +1,7 @@
 import {
   ActivityListComponent,
   AgenciesComponent,
+  AgenciesListComponent,
   AgencyComponent,
   AgencySidebarComponent,
   AppComponent,
@@ -42,6 +43,7 @@ import {
 export const APP_COMPONENTS = [
   ActivityListComponent,
   AgenciesComponent,
+  AgenciesListComponent,
   AgencyComponent,
   AgencySidebarComponent,
   AppComponent,

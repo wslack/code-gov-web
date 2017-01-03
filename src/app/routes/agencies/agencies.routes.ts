@@ -8,7 +8,7 @@ export const AGENCY_ROUTES: Routes = [
     path: 'agencies',
     component: AgenciesComponent,
     children: [
-      { path: '', redirectTo: AGENCIES[0].id },
+      { path: ''},
       { path: ':id', component: AgencyComponent }
     ]
   }
