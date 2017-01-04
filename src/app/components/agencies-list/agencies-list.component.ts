@@ -25,6 +25,7 @@ export class AgenciesListComponent{
     return this.getAgencies().subscribe(
       (response: any) => {
         this.agencies = response['terms'];
+        console.log(this.agencies);
         this.hasAgencies = true;
       }
     );

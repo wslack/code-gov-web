@@ -1,3 +1,5 @@
 <div *ngIf="hasAgencies" class="agencies-container">
-  Beef
+  <li *ngFor="let agency of agencies" class="agency">
+    <agency-list-item [agency]="agency"></agency-list-item>
+  </li>
 </div>
