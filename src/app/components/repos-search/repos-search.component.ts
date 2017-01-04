@@ -18,6 +18,7 @@ import { SearchService } from '../../services/search';
 
 export class ReposSearchComponent {
   @Input() queryValue: string;
+  public queryInputValue: string;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -31,6 +32,10 @@ export class ReposSearchComponent {
     this.searchForm = this.formBuilder.group({
       query: [''],
     });
+  }
+
+  onKey(event:any) {
+      this.queryInputValue = event.target.value;
   }
 
   onSubmit(form: any): void {

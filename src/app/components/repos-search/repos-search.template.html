@@ -1,5 +1,6 @@
  <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.value)">
   <label for="searchQuery">Query</label>
-  <input id="searchQuery" type="text" required class="form-control" value="{{queryValue}}" [formControl]="searchForm.controls['query']" placeholder="Search Code.gov" autofocus/>
+  <input id="searchQuery" type="text" required class="form-control" value="{{queryValue}}" [formControl]="searchForm.controls['query']" (keyup)="onKey($event)" placeholder="Search Code.gov" autofocus/>
   <input type="submit" value="Search" />
 </form>
+<autocomplete [query]='queryInputValue'></autocomplete>

@@ -8,8 +8,10 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
+import { AutocompleteComponent } from '../autocomplete';
 import { ReposSearchComponent } from './';
 import { SearchService } from '../../services/search';
+import { TermService } from '../../services/term';
 
 describe('ReposSearchComponent', () => {
 
@@ -21,6 +23,7 @@ describe('ReposSearchComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
+        AutocompleteComponent,
         ReposSearchComponent
       ],
       imports: [
@@ -30,7 +33,8 @@ describe('ReposSearchComponent', () => {
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         { provide: SearchService, useClass: MockSearchService },
-        { provide: Router, useClass: MockRouter }
+        { provide: Router, useClass: MockRouter },
+        { provide: TermService, useClass: MockTermService }
       ]
     });
 
@@ -86,3 +90,5 @@ class MockSearchService {
     return true;
   }
 }
+
+class MockTermService {}

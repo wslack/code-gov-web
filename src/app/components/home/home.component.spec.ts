@@ -7,6 +7,7 @@ import { SpyLocation } from '@angular/common/testing';
 
 import { Angulartics2, Angulartics2Module } from 'angulartics2';
 
+import { AutocompleteComponent } from '../autocomplete';
 import { BannerArtComponent } from './banner-art';
 import { ExternalLinkDirective } from '../../directives/external-link';
 import { HomeComponent } from './';
@@ -16,12 +17,14 @@ import { ReposSearchComponent } from '../repos-search';
 import { SearchService } from '../../services/search';
 import { SeoService } from '../../services/seo';
 import { StateService } from '../../services/state';
+import { TermService } from '../../services/term';
 
 describe('HomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
+        AutocompleteComponent,
         BannerArtComponent,
         ExternalLinkDirective,
         HomeComponent,
@@ -41,7 +44,8 @@ describe('HomeComponent', () => {
         ModalService,
         SearchService,
         SeoService,
-        StateService
+        StateService,
+        TermService
       ]
     });
 
