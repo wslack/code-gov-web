@@ -26,23 +26,27 @@ import { AppComponent } from './utils/app-components';
 import { IsDefinedPipe } from './pipes/is-defined';
 import { APP_COMPONENTS } from './utils/app-components';
 import { AgencyService, AGENCIES } from './services/agency';
+import { ApiService } from './services/api';
 import { MobileService } from './services/mobile';
 import { ModalService } from './services/modal';
 import { RepoService } from './services/repo';
 import { SearchService } from './services/search';
 import { SeoService } from './services/seo';
 import { StateService } from './services/state';
+import { TermService } from './services/term';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AgencyService,
+  ApiService,
   MobileService,
   ModalService,
   RepoService,
   SearchService,
   SeoService,
-  StateService
+  StateService,
+  TermService,
 ];
 
 /**
