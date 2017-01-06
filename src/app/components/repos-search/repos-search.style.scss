@@ -28,3 +28,11 @@ label {
   text-align: left;
   text-indent: -9999px;
 }
+
+.autocomplete-container {
+  @include span-columns(9);
+}
+
+.search-form {
+  @include clearfix;
+}

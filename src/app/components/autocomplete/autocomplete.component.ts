@@ -7,12 +7,14 @@ import { TermService } from '../../services/term';
 
 @Component({
   selector: 'autocomplete',
+  styles: [require('./autocomplete.style.scss')],
   template: require('./autocomplete.template.html')
 })
 
 export class AutocompleteComponent {
   @Input() query: string;
-  public results: any;
+  public hasResults: boolean = false;
+  public results: any[];
   private termsSub: Subscription;
 
   constructor(private termService: TermService){}
@@ -20,13 +22,16 @@ export class AutocompleteComponent {
   newTermsSubscription(): Subscription {
     return this.newTermQuery().subscribe(
       (response: any) => {
-        console.log(response);
+        if (response['terms'].length > 0) {
+          this.results = response['terms'];
+          this.hasResults = true;
+        }
       }
     );
   }
 
   newTermQuery(): Observable<any> {
-    return this.termService.getTerms('term=' + this.query + '&size=4');
+    return this.termService.getTerms('term=' + this.query + '&size=4&term_type=agency.acronym&term_type=agency.name');
   }
 
   ngOnChanges() {

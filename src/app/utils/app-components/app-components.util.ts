@@ -3,6 +3,7 @@ export * from '../../components/agencies';
 export * from '../../components/agency';
 export * from '../../components/agency-sidebar';
 export * from '../../components/autocomplete';
+export * from '../../components/autocomplete-result';
 export * from '../../components/app';
 export * from '../../components/explore-code';
 export * from '../../components/four-oh-four';

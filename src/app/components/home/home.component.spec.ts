@@ -8,6 +8,7 @@ import { SpyLocation } from '@angular/common/testing';
 import { Angulartics2, Angulartics2Module } from 'angulartics2';
 
 import { AutocompleteComponent } from '../autocomplete';
+import { AutocompleteResultComponent } from '../autocomplete-result';
 import { BannerArtComponent } from './banner-art';
 import { ExternalLinkDirective } from '../../directives/external-link';
 import { HomeComponent } from './';
@@ -25,6 +26,7 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AutocompleteComponent,
+        AutocompleteResultComponent,
         BannerArtComponent,
         ExternalLinkDirective,
         HomeComponent,

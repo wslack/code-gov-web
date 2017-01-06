@@ -1,0 +1,35 @@
+.autocomplete-result {
+  display: block;
+  padding: 0.5em;
+  text-decoration: none;
+  text-transform: none;
+
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
+.icon {
+  float: left;
+  height: 3em;
+  margin-right: 0.5em;
+  width: 3em;
+
+  img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.info {
+  line-height: 3em;
+  overflow: hidden;
+  vertical-align: center;
+
+  h6 {
+    font-size: 1.1em;
+    margin: 0;
+  }
+}
