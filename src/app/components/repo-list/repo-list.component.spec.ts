@@ -49,8 +49,7 @@ describe('RepoListComponent', () => {
   });
 
   describe('getMoreRepos', () => {
-    /*
-    it('calls the Search Service search function',
+    xit('calls the Search Service search function',
       inject([SearchService], searchService => {
         spyOn(searchService, 'search').and.callThrough();
 
@@ -62,7 +61,6 @@ describe('RepoListComponent', () => {
         );
       }
     ));
-    */
   });
 
   describe('onScroll', () => {

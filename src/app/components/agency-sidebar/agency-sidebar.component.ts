@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AgencyService, Agency } from '../../services/agency';
+import { AgencyService} from '../../services/agency';
 import { MobileService } from '../../services/mobile';
 
 @Component({
@@ -11,7 +11,7 @@ import { MobileService } from '../../services/mobile';
 
 export class AgencySidebarComponent {
   menuActive: Observable<boolean>;
-  agencies: Agency[];
+  agencies: any;
 
   constructor(
     private agencyService: AgencyService,

@@ -22,7 +22,8 @@ export class AutocompleteComponent {
   newTermsSubscription(): Subscription {
     return this.newTermQuery().subscribe(
       (response: any) => {
-        if (response['terms'].length > 0) {
+        if (response['terms'].length > 0 && this.results != response['terms'] ) {
+          this.termService.resetTerms();
           this.results = response['terms'];
           this.hasResults = true;
         }

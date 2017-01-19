@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { AgencyService, Agency } from '../../services/agency';
+import { AgencyService } from '../../services/agency';
 import { LanguageIconPipe } from '../../pipes/language-icon';
 import { PluralizePipe } from '../../pipes/pluralize';
 import { SeoService } from '../../services/seo';
@@ -14,7 +14,7 @@ import { TruncatePipe } from '../../pipes/truncate';
 })
 
 export class AgencyComponent implements OnInit, OnDestroy {
-  agency: Agency;
+  public agency: any;
   public hasRepos: boolean = false;
   public repos;
   public searchQuery: string;
@@ -38,7 +38,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       let id = params['id'];
       let queryValue = 'agency.acronym=' + id;
 
-      this.agency = this.agencyService.getAgency(id);
+      //this.agency = this.agencyService.getAgency(id);
       this.searchQuery = '_fulltext=' + queryValue;
 
       this.seoService.setTitle(this.agency.name, true);

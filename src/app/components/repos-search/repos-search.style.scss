@@ -31,6 +31,7 @@ label {
 
 .autocomplete-container {
   @include span-columns(9);
+  position: relative;
 }
 
 .search-form {

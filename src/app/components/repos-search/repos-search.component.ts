@@ -18,7 +18,8 @@ import { SearchService } from '../../services/search';
 
 export class ReposSearchComponent {
   @Input() queryValue: string;
-  public queryInputValue: string;
+  public autocompleteVisible: boolean = false;
+  public queryInputValue: string = '';
 
   constructor(
     public formBuilder: FormBuilder,
@@ -28,6 +29,14 @@ export class ReposSearchComponent {
 
   searchForm: FormGroup;
 
+  hasQuery(): boolean {
+    if(this.queryInputValue) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
       query: [''],
@@ -35,7 +44,7 @@ export class ReposSearchComponent {
   }
 
   onKey(event:any) {
-      this.queryInputValue = event.target.value;
+    this.queryInputValue = event.target.value;
   }
 
   onSubmit(form: any): void {
@@ -44,5 +53,9 @@ export class ReposSearchComponent {
 
   search(query: string) {
     this.router.navigateByUrl('/search?q=' + query);
+  }
+
+  toggleAutocomplete(boolean: boolean) {
+    this.autocompleteVisible = boolean;
   }
 }

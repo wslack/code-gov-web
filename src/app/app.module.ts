@@ -25,7 +25,7 @@ import { TruncatePipe } from './pipes/truncate';
 import { AppComponent } from './utils/app-components';
 import { IsDefinedPipe } from './pipes/is-defined';
 import { APP_COMPONENTS } from './utils/app-components';
-import { AgencyService, AGENCIES } from './services/agency';
+import { AgencyService } from './services/agency';
 import { ApiService } from './services/api';
 import { MobileService } from './services/mobile';
 import { ModalService } from './services/modal';

@@ -4,4 +4,9 @@ li {
 
 .autocomplete {
   background-color: #ffffff;
+  border: 1px solid lighten(#1c4772, 20);
+  position: absolute;
+  top: 0.25em;
+  width: 100%;
+  z-index: 1000;
 }
