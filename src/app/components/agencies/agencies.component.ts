@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-
 import { MobileService } from '../../services/mobile';
+import { StateService } from '../../services/state';
 
 @Component({
   selector: 'agencies',
@@ -10,7 +10,11 @@ import { MobileService } from '../../services/mobile';
 
 export class AgenciesComponent {
 
-  constructor(private mobileService: MobileService) {
+  constructor(
+    public stateService: StateService,
+    private mobileService: MobileService
+  ) {
+    this.stateService.set('section', 'explore-code');
     this.mobileService.hideMenu();
   }
 }

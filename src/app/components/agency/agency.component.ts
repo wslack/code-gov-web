@@ -18,7 +18,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
   public hasRepos: boolean = false;
   public repos;
   public searchQuery: string;
-  private eventSub: Subscription;
+  private agencySub: Subscription;
 
   constructor(
     private agencyService: AgencyService,
@@ -26,28 +26,49 @@ export class AgencyComponent implements OnInit, OnDestroy {
     private seoService: SeoService
   ) {}
 
+  routeParams() {
+    return this.route.params;
+  }
+
+  newRouteSubscription(): Subscription {
+    return this.routeParams().subscribe(
+      (response: any) => {
+        let id = response['id'];
+
+        if(this.agencyService.agencies) {
+          //Agencies already fetched from API
+          this.setAgency(id);
+        } else {
+          //Set the list of Agencies to limit API requests
+          this.agencyService.getAgencies().subscribe(
+            (response: any) => {
+              this.agencyService.setAgencies(response['agencies']);
+              this.setAgency(id);
+            }
+          );
+        }
+      }
+    );
+  }
+
+
   ngOnDestroy() {
     this.hasRepos = false;
     this.agency = null;
-    if (this.eventSub) this.eventSub.unsubscribe();
+    if (this.agencySub) this.agencySub.unsubscribe();
   }
 
   ngOnInit() {
-    this.eventSub = this.route.params.subscribe(params => {
-
-      let id = params['id'];
-      let queryValue = 'agency.acronym=' + id;
-
-      //this.agency = this.agencyService.getAgency(id);
-      this.searchQuery = '_fulltext=' + queryValue;
-
-      this.seoService.setTitle(this.agency.name, true);
-      this.seoService.setMetaDescription('Browse code from the ' + this.agency.name);
-      this.seoService.setMetaRobots('Index, Follow');
-    });
+    this.agencySub = this.newRouteSubscription();
   }
 
-  agencyId() {
-    return this.agency.id;
+  setAgency(id) {
+    let agencyQuery = this.agencyService.getAgency('acronym', id);
+
+    //Check for Agency before setting it
+    if(agencyQuery) {
+      this.searchQuery = 'agency.acronym=' + id;
+      this.agency = this.agencyService.getAgency('acronym', id);
+    }
   }
 }
