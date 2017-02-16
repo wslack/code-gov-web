@@ -16,7 +16,8 @@ export class ReposService {
 
   getJsonFile(): Observable<Response> {
     return this.http.get(
-      'assets/repos.json'
+      <!--'assets/repos.json'-->
+      'http://code-api.app.cloud.gov/api/0.1/repos'
     )
     .map(response => response.json());
   }
