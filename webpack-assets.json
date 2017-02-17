@@ -1,11 +1,11 @@
 {
   "vendor": {
-    "js": "/vendor.bundle.js"
+    "js": "/site/presidential-innovation-fellows/code-gov-web/vendor.bundle.js"
   },
   "main": {
-    "js": "/main.bundle.js"
+    "js": "/site/presidential-innovation-fellows/code-gov-web/main.bundle.js"
   },
   "polyfills": {
-    "js": "/polyfills.bundle.js"
+    "js": "/site/presidential-innovation-fellows/code-gov-web/polyfills.bundle.js"
   }
 }
