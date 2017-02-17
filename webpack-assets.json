@@ -1,11 +1,11 @@
 {
   "vendor": {
-    "js": "/code-gov-web/vendor.fbe400e560ef3ea6de6a.bundle.js"
+    "js": "/vendor.bundle.js"
   },
   "main": {
-    "js": "/code-gov-web/main.aff9bb00a1970ebadd46.bundle.js"
+    "js": "/main.bundle.js"
   },
   "polyfills": {
-    "js": "/code-gov-web/polyfills.e6be7a6304564af2ebba.bundle.js"
+    "js": "/polyfills.bundle.js"
   }
 }
