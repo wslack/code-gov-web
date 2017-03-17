@@ -1,5 +1,6 @@
 .table {
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd),
@@ -322,4 +323,40 @@ table.dataTable td.focus {
   outline: none !important;
   box-shadow: none !important;
   background-image: none;
+}
+
+#circle-red {
+  width: 25px;
+  height: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: red;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-flex;
+}
+
+#circle-yellow {
+  width: 25px;
+  height: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: yellow;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-flex;
+}
+
+#circle-green {
+  width: 25px;
+  height: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: green;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-flex;
 }
