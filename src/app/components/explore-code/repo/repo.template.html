@@ -17,8 +17,8 @@
           </a>
         </li>
 
-        <li *ngIf="repo.repoURL | isdefined">
-          <a external-link class="usa-button" href="{{ repo.repoURL }}">
+        <li *ngIf="repo.repository | isdefined">
+          <a external-link class="usa-button" href="{{ repo.repository }}">
             Visit Repo
           </a>
         </li>
@@ -31,20 +31,20 @@
       <h2>Highlights</h2>
       <ul class="usa-unstyled-list repo-features-list">
         <li class="repo-language usa-width-one-half">
-          <div *ngIf="repo.codeLanguage | isdefined">
-            <div *ngFor="let language of repo.codeLanguage" class="feature-icon">
+          <div *ngIf="repo.languages | isdefined">
+            <div *ngFor="let language of repo.languages" class="feature-icon">
               <i class="devicons devicons-{{language.language | languageIcon }}">
               </i>
             </div>
             <h3>Language</h3>
             <p>
               This repo is built in
-              <span *ngFor="let language of repo.codeLanguage" class="language">
+              <span *ngFor="let language of repo.languages" class="language">
                 {{ language.language }}.
               </span>
             </p>
           </div>
-          <div *ngIf="!repo.codeLanguage | isdefined">
+          <div *ngIf="!repo.languages | isdefined">
             <div class="feature-icon">
               <i class="fa fa-question"></i>
             </div>

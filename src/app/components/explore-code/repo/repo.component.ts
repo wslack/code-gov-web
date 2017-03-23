@@ -44,7 +44,7 @@ export class RepoComponent implements OnInit, OnDestroy {
       subscribe((result) => {
         if (result) {
           this.repo = result['repos'].filter(repo => repo.repoID === id)[0];
-          this.repo.agency = this.agencyService.getAgency(this.repo.agency);
+          this.repo.agency = this.agencyService.getAgency(this.repo.agency.acronym);
           this.seoService.setTitle(this.repo.name, true);
           this.seoService.setMetaDescription(this.repo.description);
           this.seoService.setMetaRobots('Index, Follow');

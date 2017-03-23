@@ -16,7 +16,7 @@ export class ReposService {
 
   getJsonFile(): Observable<Response> {
     return this.http.get(
-      'assets/repos.json'
+      'http://localhost:3001/api/0.1/repos?size=2800'
     )
     .map(response => response.json());
   }

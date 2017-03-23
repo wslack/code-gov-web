@@ -74,7 +74,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
   }
 
   filterByAgency(repo) {
-    if (repo.agency !== undefined && repo.agency === this.agencyId()) {
+    if (repo.agency.acronym !== undefined && repo.agency.acronym === this.agencyId()) {
       return true;
     } else {
       return false;
