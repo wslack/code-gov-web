@@ -25,8 +25,13 @@ let gtmAuth;
 if (helpers.hasProcessFlag('github-stag')) {
   BASEURL = '/code-gov-web/';
   gtmAuth = 'GTM-NTMZFB';
+} else if (helpers.hasProcessFlag('federalist-stag')){
+  
+  BASEURL = '/site/presidential-innovation-fellows/code-gov-web/';
+  gtmAuth = 'GTM-M9L9Q5';
+
 } else {
-  BASEURL = '/';
+  BASEURL = '/site/presidential-innovation-fellows/code-gov-web/';
   gtmAuth = 'GTM-M9L9Q5';
 }
 
@@ -94,6 +99,7 @@ module.exports = function (env) {
 
           const options = {
             logger: logger,
+            branch: 'federalist-pages',
             remote: GIT_REMOTE_NAME,
             message: COMMIT_MESSAGE,
             dotfiles: true
