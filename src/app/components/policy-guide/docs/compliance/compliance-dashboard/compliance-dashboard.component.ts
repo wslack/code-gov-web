@@ -20,6 +20,7 @@ import { SeoService } from '../../../../../services/seo';
 export class ComplianceDashboardComponent implements OnInit, OnDestroy {
   agencies: Agency[];
   public statuses[];
+  public updated;
   private statusesSub: Subscription;
 
   constructor(
@@ -28,12 +29,21 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit() {
-    this.agencies = this.agencyService.getAgencies();
+    this.getAgencyIds();
     this.getStatuses();
   }
 
   ngOnDestroy(){
   	if (this.statusesSub) this.statusesSub.unsubscribe();
+  }
+
+
+  getAgencyIds(){
+    this.agencies = [];
+    var agencies = this.agencyService.getAgencies();
+    for(let agency of agencies){
+      this.agencies.push(agency.id);
+    }
   }
 
   getStatuses() {
@@ -42,11 +52,12 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
     var rValue;
     var requirementStatus;
     var overallStatus;
+    var codePath;
 
     this.statusesSub = this.statusService.getJsonFile().
       subscribe((result) => {
         if (result) {
-          console.log(result);
+
           for (let status in result.statuses) {
  			      // TODO: pull from AgencyService. AgencyService currently fails if json couldn't be parsed.
 
@@ -72,16 +83,26 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
               else{
                overallStatus = requirementStatus;
               }
+
             }
 
-            agency = { "id" : status, "name" : result.statuses[status].metadata.agency.name, "overall" : overallStatus }; 
+            if(this.agencies.find(function(x){return x==status;})){
+              codePath = "/explore-code/agencies/" + status;
+            }
+            else{
+              codePath = null;
+            }
+
+            agency = { "id" : status, "name" : result.statuses[status].metadata.agency.name, "overall" : overallStatus, "codePath": codePath }; 
           	this.statuses.push({"id": status, "agency": agency, "requirements": requirements});
+            this.updated = result.timestamp;
+
           }
         } else {
           console.log('Error.');
         }
-        console.log(this.statuses);
     });
+
   }
 
 }

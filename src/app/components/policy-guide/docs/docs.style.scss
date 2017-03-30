@@ -252,20 +252,42 @@ li.dashboard-agency.noncompliant {
   border-left: 2em solid $color-secondary-darkest;
 }
 
-h4.compliant {
+h4 .compliant {
   color: $color-green;
+  text-decoration: underline;
 }
 
 
-h4.partial {
+h4 .partial {
   color: $color-gold; 
+  text-decoration: underline;
 }
 
-h4.noncompliant {
+h4 .noncompliant {
   color: $color-secondary-darkest;
+  text-decoration: underline;
+}
+
+.requirement {
+  font-size: 0.9em;
+  margin-bottom: .5em;
+  padding-left: .5em;
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.requirement.compliant {
+  border-left: 1.25em solid $color-green;
 }
 
 
+.requirement.partial {
+  border-left: 1.25em solid $color-gold;
+}
+
+
+.requirement.noncompliant {
+  border-left: 1.25em solid $color-secondary-darkest;
+}
 
 li.dashboard-agency {
   @extend %card;
@@ -280,14 +302,6 @@ li.dashboard-agency {
   padding-left: 8em;
   padding-right: 1em;
   margin-bottom: 1em;
-
-  &:hover {
-    box-shadow: 0 3px 5px rgba($color-gray-dark, 0.25);
-
-    h3 {
-      color: $color-primary;
-    }
-  }
 
 
   p {
@@ -304,16 +318,16 @@ li.dashboard-agency {
 
 
   .dashboard-agency-icon {
-    left: 2em;
+    left: 1.5em;
     width: 5em;
-    top: 0.5em;
+    top: 1.5em;
     vertical-align: middle;
     position: absolute;
 
     @include media($medium-screen) {
-      left: 2em;
-      padding: 1em 0 0 0;
-      top: 1em;
+      left: 1.5em;
+      padding: 0;
+      top: 1.5em;
     }
 
     i {
@@ -356,28 +370,21 @@ li.dashboard-agency {
   }
 
   .requirement {
-    font-size: 0.9em;
-    margin-bottom: .5em;
-    padding-left: .5em;
-    border-bottom: 1px solid #e9e9e9;
-    max-width: 25em;
-  }
-
-  .requirement.compliant {
-    border-left: 1.25em solid $color-green;
-  }
-
-
-  .requirement.partial {
-    border-left: 1.25em solid $color-gold;
-  }
-
-
-  .requirement.noncompliant {
-    border-left: 1.25em solid $color-secondary-darkest;
+    max-width: 25em;  
   }
 
   .dashboard-agency-link {
     text-align: right;
+
+      a {
+      color: $brand-blue;
+      font-weight: bold;
+      padding-bottom: 0.1em;
+      text-decoration: none;
+
+      &:hover {
+        border-bottom: 2px solid $brand-blue;
+      }
+    }
   }
 }
