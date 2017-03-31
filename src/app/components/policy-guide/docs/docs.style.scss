@@ -370,10 +370,12 @@ li.dashboard-agency {
   }
 
   .requirement {
-    max-width: 25em;  
+    max-width: 35em;
+    margin-right: 2em;  
   }
 
   .dashboard-agency-link {
+    margin: 1em .5em 0 0;
     text-align: right;
 
       a {

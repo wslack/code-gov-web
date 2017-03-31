@@ -59,44 +59,49 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
         if (result) {
 
           for (let status in result.statuses) {
- 			      // TODO: pull from AgencyService. AgencyService currently fails if json couldn't be parsed.
+ 			      
+            //should make this more explicit in the API, but if this requirement is null it means the agency doesn't have to comply with the policy as a whole, so don't include it in the dash.
+            if(result.statuses[status].requirements["agencyWidePolicy"] != null){
+              
+              // TODO: pull from AgencyService, which currently only provides agencies that have code included on the site.
 
-            requirements = new Array();
-            for(let requirement in result.statuses[status].requirements){
-             
-              rValue = result.statuses[status].requirements[requirement];
-              if(rValue <1){
-                if(rValue > 0){
-                  requirementStatus = "partial";
+              requirements = new Array();
+              for(let requirement in result.statuses[status].requirements){
+               
+                rValue = result.statuses[status].requirements[requirement];
+                if(rValue <1){
+                  if(rValue > 0){
+                    requirementStatus = "partial";
+                  }
+                  else {
+                    requirementStatus = "noncompliant";
+                  }
                 }
-                else {
-                  requirementStatus = "noncompliant";
+                else{
+                  requirementStatus = "compliant";
                 }
+
+                if(requirement != "overallCompliance"){
+                  requirements.push({"text": requirement, "status": requirementStatus});
+                }
+                else{
+                 overallStatus = requirementStatus;
+                }
+
+              }
+
+              if(this.agencies.find(function(x){return x==status;})){
+                codePath = "/explore-code/agencies/" + status;
               }
               else{
-                requirementStatus = "compliant";
+                codePath = null;
               }
 
-              if(requirement != "overallCompliance"){
-                requirements.push({"text": requirement, "status": requirementStatus});
-              }
-              else{
-               overallStatus = requirementStatus;
-              }
+              agency = { "id" : status, "name" : result.statuses[status].metadata.agency.name, "overall" : overallStatus, "codePath": codePath }; 
+            	this.statuses.push({"id": status, "agency": agency, "requirements": requirements});
+              this.updated = result.timestamp;
 
             }
-
-            if(this.agencies.find(function(x){return x==status;})){
-              codePath = "/explore-code/agencies/" + status;
-            }
-            else{
-              codePath = null;
-            }
-
-            agency = { "id" : status, "name" : result.statuses[status].metadata.agency.name, "overall" : overallStatus, "codePath": codePath }; 
-          	this.statuses.push({"id": status, "agency": agency, "requirements": requirements});
-            this.updated = result.timestamp;
-
           }
         } else {
           console.log('Error.');
