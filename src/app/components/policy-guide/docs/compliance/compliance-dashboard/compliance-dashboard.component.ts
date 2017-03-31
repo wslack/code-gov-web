@@ -7,10 +7,6 @@ import { StatusService } from '../../../../../services/status';
 import { Subscription } from 'rxjs/Subscription';
 import { SeoService } from '../../../../../services/seo';
 
-//import { TruncatePipe } from '../../../pipes/truncate';
-//import { MobileService } from '../../../../../services/mobile';
-//import { ActivatedRoute } from '@angular/router';
-
 
 @Component({
   selector: 'compliance-dashboard',
@@ -18,7 +14,7 @@ import { SeoService } from '../../../../../services/seo';
 })
 
 export class ComplianceDashboardComponent implements OnInit, OnDestroy {
-  agencies: Agency[];
+  agencyIds[];
   public statuses[];
   public updated;
   private statusesSub: Subscription;
@@ -39,10 +35,10 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
 
 
   getAgencyIds(){
-    this.agencies = [];
+    this.agencyIds = [];
     var agencies = this.agencyService.getAgencies();
     for(let agency of agencies){
-      this.agencies.push(agency.id);
+      this.agencyIds.push(agency.id);
     }
   }
 
@@ -60,7 +56,9 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
 
           for (let status in result.statuses) {
  			      
-            //should make this more explicit in the API, but if this requirement is null it means the agency doesn't have to comply with the policy as a whole, so don't include it in the dash.
+             //if agencyWidePolicy is null in report.json it means the agency doesn't have to comply, 
+             //so don't include it in the dash.
+             //TODO: should make this more explicit in the API, 
             if(result.statuses[status].requirements["agencyWidePolicy"] != null){
               
               // TODO: pull from AgencyService, which currently only provides agencies that have code included on the site.
@@ -90,7 +88,7 @@ export class ComplianceDashboardComponent implements OnInit, OnDestroy {
 
               }
 
-              if(this.agencies.find(function(x){return x==status;})){
+              if(this.agencyIds.find(function(x){return x==status;})){
                 codePath = "/explore-code/agencies/" + status;
               }
               else{

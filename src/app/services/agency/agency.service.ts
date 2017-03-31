@@ -17,5 +17,4 @@ export class AgencyService {
 export interface Agency {
   id: string;
   name: string;
-  mustComply: integer;
 }
